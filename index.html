@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+      body { margin: 0; }
+    </style>
+  </head>
+  <body>
+    <script src="three.js"></script>
+    <script src="OrbitControls.js"></script>
+    <script>
+      // JavaScriptをここに追加
+      // シーンの準備
+        const scene = new THREE.Scene()
+
+        // カメラの準備
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000)
+
+        // レンダラーの準備
+        const renderer = new THREE.WebGLRenderer()
+        renderer.setSize(window.innerWidth, window.innerHeight)
+        document.body.appendChild(renderer.domElement)
+
+        // 立方体の準備
+        const geometry = new THREE.BoxGeometry() // ジオメトリ
+        const material = new THREE.MeshBasicMaterial({color: 0x00ff00})　// マテリアル
+        const cube = new THREE.Mesh(geometry, material) // キューブ
+        scene.add(cube)
+        camera.position.z = 5
+
+        // ライトの準備
+        const directionalLight = new THREE.DirectionalLight('#aaaaff', 1)
+        directionalLight.position.set(0, 10, 10)
+        scene.add(directionalLight)
+
+        // コントローラーの準備
+        const controls = new THREE.OrbitControls(camera, document.body)
+
+        function animate() {
+            requestAnimationFrame(animate)
+            cube.rotation.x += 0.01
+            cube.rotation.y += 0.01
+            controls.update() // ← 追加
+            renderer.render(scene, camera)
+        }
+        animate();
+    </script>
+  </body>
+</html>
